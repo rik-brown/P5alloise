@@ -1,5 +1,4 @@
-var rows, colOffset, rowOffset, radiusMax, seed1, seed2;
-var columns = 9;
+var rows, columns, colOffset, rowOffset, radiusMax, seed1, seed2;
 var radiusFactor = 1.2;
 var noiseOffset1 = 0;
 var noiseOffset2 = 0;
@@ -7,7 +6,9 @@ var noiseScale1 = 2;
 var noiseScale2 = 2;
 var noiseInc1 = 0.002;
 var noiseInc2 = 0.003;
-var bkgCol, fillCol, strokeCol;
+var cycle1 = 1500;
+var cycle2 = 40000;
+var bkgCol, bkgH, fillCol, strokeCol;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -15,11 +16,15 @@ function setup() {
   colorMode(HSB, 360, 255, 255, 255);
   ellipseMode(RADIUS);
   rectMode(RADIUS);
-  bkgCol = color(240, 255, 255);
+  //bkgH = random(360);
+  bkgH = 0;
+  bkgCol = color(bkgH, 255, 255);
   fillCol = color(0, 0, 1, 48);
   strokeCol = color(0, 0, 1, 32);
   background(bkgCol);
-  rows = columns;
+  var height2width = windowHeight / windowWidth;
+  columns = int(random(5, 25));
+  rows = height2width * columns;
   //rows = 25;
   colOffset = width/(columns*2);
   rowOffset = height/(rows*2);
@@ -29,10 +34,12 @@ function setup() {
 }
 
 function draw() {
-  var cycle = 1000;
-  var sineWave = sin(map(frameCount % cycle, 0, cycle, 0, TWO_PI));
-  var bkgS = map(sineWave, -1, 1, 128, 255);
-  bkgCol = color (240, 255, bkgS);
+  var sineWave1 = sin(map(frameCount % cycle1, 0, cycle1, 0, TWO_PI));
+  var sineWave2 = sin(map(frameCount % cycle2, 0, cycle2, 0, TWO_PI));
+  bkgH = map(sineWave2, -1, 1, 0, 360);
+  //var bkgS = map(sineWave, -1, 1, 128, 255);
+  var bkgB = map(sineWave1, -1, 1, 100, 255);
+  bkgCol = color (bkgH, 255, bkgB);
   background(bkgCol);
   for(var col = 0; col < columns; col++) {
     for(var row = 0; row < rows; row++) {
@@ -49,9 +56,10 @@ function draw() {
       var ry = map(noise2, 0, 1, 0, radiusMax);
       //var fillH = map(noise1, 0, 1, 0, 255);
       var fillH = 0;
+      var fillH = (bkgH+180) % 360;
       //var fillS = map(noise3, 0, 1, 0, 255);
-      var fillS = 255; 
-      var fillB = map(noise3, 0.25, 0.75, 0, 255);
+      var fillS = 255;
+      var fillB = map(noise3, 0.2, 0.7, 0, 255);
       //var fillA = map(noise1, 0, 1, 0, 255);
       var fillA = 255;
       fillCol = color(fillH, fillS, fillB,fillA);
@@ -65,7 +73,7 @@ function draw() {
       //rect(0, 0, rx, ry);
       pop();
     }
-  } 
+  }
   noiseOffset1 += noiseInc1;
   noiseOffset2 += noiseInc2;
 }
