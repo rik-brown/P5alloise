@@ -8,7 +8,7 @@ var noiseInc1 = 0.002;
 var noiseInc2 = 0.003;
 var cycle1 = 1500;
 var cycle2 = 40000;
-var bkgCol, bkgH, fillCol, strokeCol;
+var bkgCol, bkgH, bkgS, fillCol, strokeCol;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -18,12 +18,14 @@ function setup() {
   rectMode(RADIUS);
   //bkgH = random(360);
   bkgH = 0;
-  bkgCol = color(bkgH, 255, 255);
+  bkgH = map(mouseX, 0, windowWidth, 0, 360);
+  bkgS = map(mouseY, 0, windowHeight, 0, 255);
+  bkgCol = color(bkgH, bkgS, 255);
   fillCol = color(0, 0, 1, 48);
   strokeCol = color(0, 0, 1, 32);
   background(bkgCol);
   var height2width = windowHeight / windowWidth;
-  columns = int(random(5, 25));
+  columns = int(random(5, 50));
   rows = height2width * columns;
   //rows = 25;
   colOffset = width/(columns*2);
@@ -36,10 +38,12 @@ function setup() {
 function draw() {
   var sineWave1 = sin(map(frameCount % cycle1, 0, cycle1, 0, TWO_PI));
   var sineWave2 = sin(map(frameCount % cycle2, 0, cycle2, 0, TWO_PI));
-  bkgH = map(sineWave2, -1, 1, 0, 360);
+  //bkgH = map(sineWave2, -1, 1, 0, 360);
+  bkgH = map(mouseX, 0, windowWidth, 0, 360);
   //var bkgS = map(sineWave, -1, 1, 128, 255);
+  bkgS = map(mouseY, 0, windowHeight, 0, 255);
   var bkgB = map(sineWave1, -1, 1, 100, 255);
-  bkgCol = color (bkgH, 255, bkgB);
+  bkgCol = color (bkgH, bkgS, bkgB);
   background(bkgCol);
   for(var col = 0; col < columns; col++) {
     for(var row = 0; row < rows; row++) {
