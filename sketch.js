@@ -6,8 +6,8 @@ var noiseScale1 = 2;
 var noiseScale2 = 2;
 var noiseInc1 = 0.002;
 var noiseInc2 = 0.003;
-var cycle1 = 1500;
-var cycle2 = 40000;
+var cycle1 = 1000;
+var cycle2 = 500;
 var bkgCol, bkgH, bkgS, fillCol, strokeCol;
 
 function setup() {
@@ -25,7 +25,7 @@ function setup() {
   strokeCol = color(0, 0, 1, 32);
   background(bkgCol);
   var height2width = windowHeight / windowWidth;
-  columns = int(random(5, 50));
+  columns = int(random(5, 30));
   rows = height2width * columns;
   //rows = 25;
   colOffset = width/(columns*2);
@@ -60,13 +60,14 @@ function draw() {
       var ry = map(noise2, 0, 1, 0, radiusMax);
       //var fillH = map(noise1, 0, 1, 0, 255);
       var fillH = 0;
-      var fillH = (bkgH+180) % 360;
+      var fillHoffset = map(sineWave2, -1, 1, 170, 190);
+      var fillH = (bkgH+fillHoffset) % 360;
       //var fillS = map(noise3, 0, 1, 0, 255);
       var fillS = 255;
-      var fillB = map(noise3, 0.2, 0.7, 0, 255);
+      var fillB = map(noise3, 0, 0.7, 0, 255);
       //var fillA = map(noise1, 0, 1, 0, 255);
       var fillA = 255;
-      fillCol = color(fillH, fillS, fillB,fillA);
+      fillCol = color(fillH, fillS, fillB, fillA);
       fill(fillCol);
       stroke(strokeCol);
       push();
