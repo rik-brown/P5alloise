@@ -1,5 +1,5 @@
 var rows, columns, colOffset, rowOffset, radiusMax, seed1, seed2;
-var radiusFactor = 1.2;
+var radiusFactor = 1.33; // last:1.2
 var noiseOffset1 = 0;
 var noiseOffset2 = 0;
 var noiseScale1 = 2;
@@ -26,7 +26,7 @@ function setup() {
   background(bkgCol);
   var height2width = windowHeight / windowWidth;
   columns = int(random(5, 30));
-  rows = height2width * columns;
+  rows = int(height2width * columns);
   //rows = 25;
   colOffset = width/(columns*2);
   rowOffset = height/(rows*2);
@@ -76,6 +76,9 @@ function draw() {
       rotate(angle);
       ellipse(0, 0, rx, ry);
       //rect(0, 0, rx, ry);
+      fill(bkgCol);
+      noStroke();
+      triangle(0, -ry, (rx*0.866), (ry*0.5) ,-(rx*0.866), (ry*0.5));
       pop();
     }
   }
